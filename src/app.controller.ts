@@ -14,4 +14,9 @@ export class AppController {
 	getContractAddress() {
 		return { result: this.appService.getContractAddress() };
 	}
+
+	@Get('token-name')
+	async getTokenName() {
+	  return {result: await this.appService.getTokenName()};
+	}
 }
