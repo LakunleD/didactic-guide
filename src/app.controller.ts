@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -35,4 +35,8 @@ export class AppController {
 	  return {result: await this.appService.getTransactionReceipt(hash)};
 	}
 	
+	@Get('server-wallet-address')
+	getServerWalletAddress() {
+	  return {result: this.appService.getServerWalletAddress()};
+	}
 }

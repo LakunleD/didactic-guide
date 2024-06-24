@@ -1,17 +1,27 @@
 import { Injectable } from '@nestjs/common';
-import { Address, createPublicClient, http, formatUnits } from 'viem';
+import { Address, createPublicClient, http, formatUnits, createWalletClient } from 'viem';
 import { sepolia } from 'viem/chains';
 import * as tokenJson from './assets/MyToken.json';
 import { ConfigService } from '@nestjs/config';
+import { privateKeyToAccount } from 'viem/accounts';
 
 @Injectable()
 export class AppService {
 	publicClient;
+	walletClient;
+
 	constructor(private configService: ConfigService) {
 		this.publicClient = createPublicClient({
 			chain: sepolia,
 			transport: http(this.configService.get<string>('RPC_ENDPOINT_URL')),
 		});
+
+		const account = privateKeyToAccount(`0x${this.configService.get<string>('PRIVATE_KEY')}`);
+		this.walletClient = createWalletClient({
+			account,
+			chain: sepolia,
+			transport: http(this.configService.get<string>('RPC_ENDPOINT_URL')),
+		})
 	}
 	
 	getHello(): string {
@@ -82,5 +92,9 @@ export class AppService {
 
 	async getTransactionReceipt(hash: string) {
 		return await this.publicClient.getTransactionReceipt(hash);
+	}
+
+	getServerWalletAddress() {
+		return this.walletClient.account.address;
 	}
 }
