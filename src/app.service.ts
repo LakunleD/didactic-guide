@@ -114,4 +114,10 @@ export class AppService {
 
 		return hasRole ? `Address ${address} has Minter Role` : `Address ${address} does not have Minter Role`
 	}
+
+	mintTokens(address: any) {
+		// TODO: Mint the token and get the receipt
+		const hash = '0xTODo';
+		return hash;
+	}
 }
