@@ -33,7 +33,7 @@ export class AppService {
 	}
 
 	async getTotalSupply() {
-		const balance = await this.publicClient.readContract({
+		const totalSupply = await this.publicClient.readContract({
 			address: this.getContractAddress(),
 			abi: tokenJson.abi,
 			functionName: "totalSupply"
@@ -51,20 +51,33 @@ export class AppService {
 			functionName: "decimals"
 		});
 
-		const balanceString = `${formatUnits(balance, decimals)} ${symbol}`;
+		const balanceString = `${formatUnits(totalSupply, decimals)} ${symbol}`;
 		return balanceString;
 	}
 
-	getTokenBalance(hash: string) {
-		return this.publicClient.getTransactionReceipt(hash);
-	}
-
-	getTransactionReceipt(address: string) {
-		return this.publicClient.readContract({
+	async getTokenBalance(address: string) {
+		const balance = await this.publicClient.readContract({
 			address: this.getContractAddress(),
 			abi: tokenJson.abi,
 			functionName: "balanceOf",
 			args: [address]
 		});
+
+		const symbol = await this.publicClient.readContract({
+			address: this.getContractAddress(),
+			abi: tokenJson.abi,
+			functionName: "symbol"
+		});
+
+		const decimals = await this.publicClient.readContract({
+			address: this.getContractAddress(),
+			abi: tokenJson.abi,
+			functionName: "decimals"
+		});
+
+		const balanceString = `${formatUnits(balance, decimals)} ${symbol}`;
+		return balanceString;
+		
 	}
+
 }

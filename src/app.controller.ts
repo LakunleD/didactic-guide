@@ -24,4 +24,9 @@ export class AppController {
 	async getTotalSupply() {
 	  return {result: await this.appService.getTotalSupply()};
 	}
+  
+	@Get('token-balance/:address')
+	async getTokenBalance(@Param('address') address: string) {
+	  return {result: await this.appService.getTokenBalance(address)};
+	}
 }
