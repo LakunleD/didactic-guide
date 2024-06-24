@@ -80,4 +80,7 @@ export class AppService {
 		
 	}
 
+	async getTransactionReceipt(hash: string) {
+		return await this.publicClient.getTransactionReceipt(hash);
+	}
 }

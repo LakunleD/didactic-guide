@@ -29,4 +29,10 @@ export class AppController {
 	async getTokenBalance(@Param('address') address: string) {
 	  return {result: await this.appService.getTokenBalance(address)};
 	}
+  
+	@Get('transaction-receipt')
+	async getTransactionReceipt(@Query('hash') hash: string) {
+	  return {result: await this.appService.getTransactionReceipt(hash)};
+	}
+	
 }
