@@ -97,4 +97,21 @@ export class AppService {
 	getServerWalletAddress() {
 		return this.walletClient.account.address;
 	}
+
+	async checkMinterRole(address: string) {
+		const MINTER_ROLE = await this.publicClient.readContract({
+			address: this.getContractAddress(),
+			abi: tokenJson.abi,
+			functionName: "MINTER_ROLE"
+		});
+
+		const hasRole = await this.publicClient.readContract({
+			address: this.getContractAddress(),
+			abi: tokenJson.abi,
+			functionName: "hasRole",
+			args: [MINTER_ROLE, address]
+		});
+
+		return hasRole ? `Address ${address} has Minter Role` : `Address ${address} does not have Minter Role`
+	}
 }

@@ -39,4 +39,9 @@ export class AppController {
 	getServerWalletAddress() {
 	  return {result: this.appService.getServerWalletAddress()};
 	}
+  
+	@Get('check-minter-role')
+	async checkMinterRole(@Query('address') address: string) {
+	  return {result: await this.appService.checkMinterRole(address)};
+	}
 }
